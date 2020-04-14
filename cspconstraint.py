@@ -26,7 +26,17 @@ class AllDiff(Constraint):
         super().__init__(variables)
 
     def is_satisfied(self):
-        raise NotImplementedError
+        variables = self.variables.copy()
+        diff_constraints = list()
+        for variable in variables:
+            for v in variables:
+                if variable != v:
+                    diff_constraints.append(Diff(variable, v))
+            
+            variables.remove(variable)
+                    
+        return all(c.is_satisfied() for c in diff_constraints)
+
 
     def __repr__(self):
         return 'AllDiff({})'.format([v.name for v in self.variables])
