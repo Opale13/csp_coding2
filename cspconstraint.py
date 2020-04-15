@@ -28,7 +28,7 @@ class AllDiff(Constraint):
     def is_satisfied(self):
         variables = self.variables.copy()
         diff_constraints = list()
-        for variable in variables:
+        for variable in self.variables:
             for v in variables:
                 if variable != v:
                     diff_constraints.append(Diff(variable, v))
