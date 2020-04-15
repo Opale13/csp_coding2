@@ -3,6 +3,7 @@
 # Version: April 12, 2020
 
 from abc import ABC, abstractmethod
+from tree import Tree
 
 class Variable:
     '''Class representing a named variable with its associated domain.'''
@@ -47,7 +48,11 @@ class Problem():
         return all(v.is_assigned() for v in self.variables) and all(c.is_satisfied() for c in self.constraints)
 
     def solve(self):
-        raise NotImplementedError
+        tree = Tree(self.variables, self.constraints)
+        tree.solve()
+
+        print("Solved? {}".format(self.is_solved()))
+        # raise NotImplementedError
 
     def __repr__(self):
         v = '\n'.join(['  * {}'.format(v) for v in self.variables])
