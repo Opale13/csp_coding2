@@ -49,10 +49,14 @@ class Problem():
 
     def solve(self):
         tree = Tree(self.variables, self.constraints)
-        tree.solve()
+        if tree.solve():
+            print("Solved with:")
+            for variable in self.variables:
+                print("{} - {}".format(variable.name, variable.value))
 
-        print("Solved? {}".format(self.is_solved()))
-        # raise NotImplementedError
+            return True
+        else:
+            return False
 
     def __repr__(self):
         v = '\n'.join(['  * {}'.format(v) for v in self.variables])
