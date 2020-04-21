@@ -23,8 +23,8 @@ class Node():
     def _is_solved(self):
         return all(v.is_assigned() for v in self.variables) and all(c.is_satisfied() for c in self.constraints)
 
-
-    def _find_variable_with_high_degree(self):
+    
+    def _get_degree(self):
         var = dict()
 
         for variable in self.variables:
@@ -33,8 +33,18 @@ class Node():
                 for constraint in self.constraints:
                     if variable in constraint.variables:
                         var[variable.name] += 1
-        
+                        
+        return var
+
+
+    def _find_variable_with_high_degree(self):
+        var = self._get_degree()
         return max(var, key=var.get)
+
+    
+    def _find_variable_with_less_degree(self):
+        var = self._get_degree()        
+        return min(var, key=var.get)
 
 
     def take_decision(self):        
@@ -43,7 +53,10 @@ class Node():
             # variable = self.variables[self.layer]
 
             #high degree
-            var = self._find_variable_with_high_degree()
+            # var = self._find_variable_with_high_degree()
+
+            #less degree
+            var = self._find_variable_with_less_degree()
 
             variable = None
             for v in self.variables:
