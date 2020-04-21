@@ -1,3 +1,5 @@
+COUNT = 0
+
 class Tree():
     def __init__(self, variables, constraints):
         self.variables = variables
@@ -48,24 +50,27 @@ class Node():
 
 
     def take_decision(self):        
+        global COUNT
+
         if self.layer < len(self.variables) and self._check_constraints():
             #first variable
-            # variable = self.variables[self.layer]
+            variable = self.variables[self.layer]
 
             #high degree
             # var = self._find_variable_with_high_degree()
 
             #less degree
-            var = self._find_variable_with_less_degree()
+            # var = self._find_variable_with_less_degree()
 
-            variable = None
-            for v in self.variables:
-                if v.name == var:
-                    variable = v
+            # variable = None
+            # for v in self.variables:
+            #     if v.name == var:
+            #         variable = v
 
             for dom in variable.domain:
                 variable.value = dom
                 variable.domain.remove(dom)
+                COUNT += 1
                 next_node = Node(self.variables, self.constraints, self.layer+1)
 
                 if next_node.take_decision():
@@ -81,4 +86,5 @@ class Node():
             return False
         
         elif self.layer == len(self.variables):
+            print("Node: {}".format(COUNT))
             return self._is_solved()
